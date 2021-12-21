@@ -44,6 +44,13 @@ app.prepare().then(async () => {
     );
   }
 
+  // Very basic healthcheck for readiness probes
+  // that bypasses our various middlewares that would otherwise
+  // 301 to someplace else
+  server.get('/status', (req, res) => {
+    res.send('ok')
+  })
+
   server.use(helmet());
   server.use(cookieParser());
   server.use(express.json());
